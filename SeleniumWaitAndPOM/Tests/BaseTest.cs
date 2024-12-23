@@ -7,21 +7,33 @@ namespace SeleniumWaitAndPOM.Tests
     [TestClass]
     public class BaseTest
     {
-        protected static IWebDriver driver;
+        protected IWebDriver driver;
 
-        [ClassInitialize(InheritanceBehavior.BeforeEachDerivedClass)]
-        public static void SetupAndOpenDriver(TestContext testContext)
+        public virtual void SetupPageObject()
+        {
+            //
+        }
+
+        [TestInitialize]
+        public void SetupAndOpenDriver()
         {
 
             // init driver
             driver = new ChromeDriver();
 
+            // maximize browser window
+            driver.Manage().Window.Maximize();
+
             // set implicit wait
-            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
+            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(20);
+
+            // setup page object
+            SetupPageObject();
+
         }
 
-        [ClassCleanup(InheritanceBehavior.BeforeEachDerivedClass)]
-        public static void Cleanup()
+        [TestCleanup]
+        public void Cleanup()
         {
             driver.Quit();
         }

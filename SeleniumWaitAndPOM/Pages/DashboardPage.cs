@@ -16,10 +16,17 @@ namespace SeleniumWaitAndPOM.Pages
 
         private IWebElement logoutButton => driver.FindElement(By.XPath("//a[@href='/web/index.php/auth/logout']"));
 
+        private IWebElement navTabConfigure => driver.FindElement(By.XPath("//*/span[text()='Configure ']"));
+
         // method interact with element
         public bool IsChartTimeAtWorkDisplay()
         {
             return chartTimeAtWork.Displayed;
+        }
+
+        public void clickNavTabConfigure()
+        {
+            navTabConfigure.Click();
         }
 
         public void ClickLogoutButton()

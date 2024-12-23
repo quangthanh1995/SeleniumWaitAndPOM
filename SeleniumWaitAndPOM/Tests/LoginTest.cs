@@ -23,25 +23,32 @@ namespace SeleniumWaitAndPOM.Tests
         [TestMethod]
         public void Verify_Login_Test()
         {
-            // maximize browser window
-            driver.Manage().Window.Maximize();
-
+            // navigate to the url
             driver.Navigate().GoToUrl("https://opensource-demo.orangehrmlive.com/web/index.php/auth/login");
 
-
             // Type username and password
-            loginPage.EnterUsernameAndPassword("Admin", "admin123");
-
-            // click button Login
-            loginPage.ClickButtonLogin();
+            loginPage.Login("Admin", "admin123");
 
             // verify url
             driver.Url.ShouldContain("dashboard/index");
 
             // verify chart display time
-            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(15));
+            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(30));
             //wait.Until(d => driver.FindElement(By.XPath("//div[@class='emp-attendance-chart']")).Displayed);
             wait.Until(d => dashboardPage.IsChartTimeAtWorkDisplay());
+        }
+
+        [TestMethod]
+        public void Verify_Login_Failed_Test()
+        {
+            // navigate to the url
+            driver.Navigate().GoToUrl("https://opensource-demo.orangehrmlive.com/web/index.php/auth/login");
+
+            // Type username and password
+            loginPage.Login("Admin", "12345678");
+
+            // verify url
+            driver.Url.ShouldNotContain("dashboard/index");
         }
     }
 }

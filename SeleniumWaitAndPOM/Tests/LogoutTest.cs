@@ -1,4 +1,5 @@
-﻿using OpenQA.Selenium.Support.UI;
+﻿using OpenQA.Selenium;
+using OpenQA.Selenium.Support.UI;
 using SeleniumWaitAndPOM.Pages;
 
 namespace SeleniumWaitAndPOM.Tests
@@ -26,10 +27,14 @@ namespace SeleniumWaitAndPOM.Tests
             driver.Navigate().GoToUrl("https://opensource-demo.orangehrmlive.com/web/index.php/auth/login");
 
             var loginPage = new LoginPage(driver);
-            loginPage.EnterUsernameAndPassword("Admin", "admin123");
-            loginPage.ClickButtonLogin();
+            WebDriverWait waitForLogin = new WebDriverWait(driver, TimeSpan.FromSeconds(30));
+            waitForLogin.Until(d => driver.FindElement(By.XPath("//button[contains(., 'Login')]")).Displayed);
+
+            loginPage.Login("Admin", "admin123");
 
             var dashboardPage = new DashboardPage(driver);
+            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(30));
+            wait.Until(d => driver.FindElement(By.XPath("//div[@class='oxd-topbar-header-userarea']")).Displayed);
             dashboardPage.ClickLogoutButton();
 
         }
