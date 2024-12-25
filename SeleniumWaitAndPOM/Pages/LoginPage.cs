@@ -1,4 +1,5 @@
-﻿using OpenQA.Selenium;
+﻿using Automation.WebDriver;
+using OpenQA.Selenium;
 
 namespace SeleniumWaitAndPOM.Pages
 {
@@ -8,15 +9,16 @@ namespace SeleniumWaitAndPOM.Pages
         {
         }
 
-        // web element
-        private IWebElement inputUsername => driver.FindElement(By.XPath("//input[@name='username']"));
+        // web elements
+        private IWebElement inputUsername => driver.FindElementByXPath("//input[@name='username']");
 
-        private IWebElement inputPassword => driver.FindElement(By.XPath("//input[@name='password']"));
+        private IWebElement inputPassword => driver.FindElementByXPath("//input[@name='password']");
 
-        //private IWebElement buttonLogin => driver.FindElement(By.XPath("//button[@type='submit']"));
-        private IWebElement buttonLogin => driver.FindElement(By.XPath("//button[contains(., 'Login')]"));
+        private IWebElement buttonLogin => driver.FindElementByXPath("//button[contains(., 'Login')]");
 
-        // method interact
+        public By buttonLoginLocator => By.XPath("//button[contains(., 'Login')]");
+
+        // interact methods
         public void EnterUsername(string username)
         {
             inputUsername.SendKeys(username);

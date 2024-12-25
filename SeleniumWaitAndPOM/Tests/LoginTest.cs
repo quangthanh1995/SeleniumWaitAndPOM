@@ -1,7 +1,4 @@
-﻿using FluentAssert;
-using OpenQA.Selenium;
-using OpenQA.Selenium.Chrome;
-using OpenQA.Selenium.Support.UI;
+﻿using Automation.WebDriver;
 using SeleniumWaitAndPOM.Pages;
 
 namespace SeleniumWaitAndPOM.Tests
@@ -20,35 +17,33 @@ namespace SeleniumWaitAndPOM.Tests
             dashboardPage = new DashboardPage(driver);
         }
 
-        [TestMethod]
+        [TestMethod("TC01: Login with valid user")]
         public void Verify_Login_Test()
         {
-            // navigate to the url
-            driver.Navigate().GoToUrl("https://opensource-demo.orangehrmlive.com/web/index.php/auth/login");
+            // Step 1: Type username and password
+            loginPage.Login(username, password);
 
-            // Type username and password
-            loginPage.Login("Admin", "admin123");
+            // Step 2: Verify the current Url
+            string currentUrl = driver.Url;
+            Assert.IsTrue(currentUrl.Contains("dashboard/index"), $"Expected Url to contains 'dashboard/index', but found: {currentUrl}");
 
-            // verify url
-            driver.Url.ShouldContain("dashboard/index");
+            // Step 3: Verify if the emp attendance chart is displayed
+            driver.WaitForElement(dashboardPage.empAttendanceChartLocator, 20);
 
-            // verify chart display time
-            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(30));
-            //wait.Until(d => driver.FindElement(By.XPath("//div[@class='emp-attendance-chart']")).Displayed);
-            wait.Until(d => dashboardPage.IsChartTimeAtWorkDisplay());
+            // log login info to the report
+            reportHelper.LogMessage("Info", "Login with username: " + username);
+            reportHelper.LogMessage("Info", "Login with password: " + password);
         }
 
-        [TestMethod]
+        [TestMethod("TC02: Login with invalid user")]
         public void Verify_Login_Failed_Test()
         {
-            // navigate to the url
-            driver.Navigate().GoToUrl("https://opensource-demo.orangehrmlive.com/web/index.php/auth/login");
+            // Step 1: Type username and a wrong password
+            loginPage.Login(username, wrongPassword);
 
-            // Type username and password
-            loginPage.Login("Admin", "12345678");
-
-            // verify url
-            driver.Url.ShouldNotContain("dashboard/index");
+            // Step 2: Verify the current Url
+            string currentUrl = driver.Url;
+            Assert.IsFalse(currentUrl.Contains("dashboard/index"), $"Expected Url to contains 'dashboard/index', but found: {currentUrl}");
         }
     }
 }

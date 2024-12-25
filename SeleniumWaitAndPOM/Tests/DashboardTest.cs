@@ -1,4 +1,5 @@
-﻿using SeleniumWaitAndPOM.Pages;
+﻿using Automation.WebDriver;
+using SeleniumWaitAndPOM.Pages;
 
 namespace SeleniumWaitAndPOM.Tests
 {
@@ -16,17 +17,57 @@ namespace SeleniumWaitAndPOM.Tests
             dashboardPage = new DashboardPage(driver);
         }
 
-        [TestMethod]
+        [TestMethod("TC04: Test the usability of the Leave>Configure menu")]
         public void Verify_Leave_Configure_Test()
         {
-            driver.Navigate().GoToUrl("https://opensource-demo.orangehrmlive.com/web/index.php/auth/login");
+            // Step of pre-condition
+            loginPage.Login(username, password);
 
-            LoginPage loginPage = new LoginPage(driver);
-            loginPage.Login("Admin", "admin123");
+            // Step 1: Click on the main menu item "Leave"
+            dashboardPage.clickMainMenuItemLeave();
 
-            driver.Navigate().GoToUrl("https://opensource-demo.orangehrmlive.com/web/index.php/leave/viewLeaveList");
-            DashboardPage dashboard = new DashboardPage(driver);
+            // Step 2: Click on the nav tab "Configure"
+            driver.WaitForElement(dashboardPage.navTabConfigureLocator, 20);
+
+            // Step 3: Hover on the nav tab "Configure"
+            //dashboardPage.hoverNavTabConfigure();
+            driver.HoverOverElement(dashboardPage.navTabConfigure);
+
+            // Step 4: Click on the nav tab "Configure"
             dashboardPage.clickNavTabConfigure();
+
+            // Step 5: Click on the dropdown item "Leave Period"
+            dashboardPage.clickDropdownItemLeavePeriod();
+
+            // Step 6: Go back to View Leave List screen
+            driver.GoBack();
+
+            // Step 7: Click on the nav tab "Configure"
+            dashboardPage.clickNavTabConfigure();
+
+            // Step 8:  Click on dropdown menu item "Leave Types"
+            dashboardPage.clickDropdownItemLeaveTypes();
+
+            // Step 9: Go back to View Leave List screen
+            driver.GoBack();
+
+            // Step 10: Click on the nav tab "Configure"
+            dashboardPage.clickNavTabConfigure();
+
+            // Step 11:  Click on dropdown menu item "Work Week"
+            dashboardPage.clickDropdownItemWorkWeek();
+
+            // Step 12: Go back to View Leave List screen
+            driver.GoBack();
+
+            // Step 13: Click on the nav tab "Configure"
+            dashboardPage.clickNavTabConfigure();
+
+            // Step 14:  Click on dropdown menu item "Holidays"
+            dashboardPage.clickDropdownItemHolidays();
+
+            // Step 15: Go back to View Leave List screen
+            driver.GoBack();
         }
     }
 }

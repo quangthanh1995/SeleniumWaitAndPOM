@@ -1,5 +1,4 @@
-﻿using OpenQA.Selenium;
-using OpenQA.Selenium.Support.UI;
+﻿using Automation.WebDriver;
 using SeleniumWaitAndPOM.Pages;
 
 namespace SeleniumWaitAndPOM.Tests
@@ -18,26 +17,20 @@ namespace SeleniumWaitAndPOM.Tests
             dashboardPage = new DashboardPage(driver);
         }
 
-        [TestMethod]
+        [TestMethod("TC03: Test the logout function")]
         public void  Verify_Logout_Test()
         {
-            // maximize browser window
-            driver.Manage().Window.Maximize();
+            // Step of pre-condition
+            driver.WaitForElement(loginPage.buttonLoginLocator, 20);
+            loginPage.Login(username, password);
 
-            driver.Navigate().GoToUrl("https://opensource-demo.orangehrmlive.com/web/index.php/auth/login");
-
-            var loginPage = new LoginPage(driver);
-            WebDriverWait waitForLogin = new WebDriverWait(driver, TimeSpan.FromSeconds(30));
-            waitForLogin.Until(d => driver.FindElement(By.XPath("//button[contains(., 'Login')]")).Displayed);
-
-            loginPage.Login("Admin", "admin123");
-
-            var dashboardPage = new DashboardPage(driver);
-            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(30));
-            wait.Until(d => driver.FindElement(By.XPath("//div[@class='oxd-topbar-header-userarea']")).Displayed);
+            // Step 1: Click the button Logout
+            driver.WaitForElement(dashboardPage.userAreaDropdownLocator, 20);
             dashboardPage.ClickLogoutButton();
 
+            // Step 2: Verify if the current Url is containing auth/login
+            string currentUrl = driver.Url;
+            Assert.IsTrue(currentUrl.Contains("auth/login"), $"Expected Url to contains 'auth/login', but found: {currentUrl}");
         }
-
     }
 }
