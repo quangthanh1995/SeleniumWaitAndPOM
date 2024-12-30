@@ -44,13 +44,6 @@ namespace SeleniumWaitAndPOM.Pages
             mainMenuItemLeave.Click();
         }
 
-        // use Actions to simulate mouse hovering
-        //public void hoverNavTabConfigure()
-        //{
-        //    Actions actions = new Actions(driver);
-        //    actions.MoveToElement(navTabConfigure).Perform();
-        //}
-
         public void clickNavTabConfigure()
         {
             navTabConfigure.Click();

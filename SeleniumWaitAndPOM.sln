@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Automation.Core", "Automati
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Automation.WebDriver", "Automation.WebDriver\Automation.WebDriver.csproj", "{31A225DD-754C-4924-8337-018020B449AA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Automation.ApiTest", "Automation.ApiTest\Automation.ApiTest.csproj", "{83CB8A40-3DF3-4EAA-9642-F27D017F0AA8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{31A225DD-754C-4924-8337-018020B449AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{31A225DD-754C-4924-8337-018020B449AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{31A225DD-754C-4924-8337-018020B449AA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{83CB8A40-3DF3-4EAA-9642-F27D017F0AA8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{83CB8A40-3DF3-4EAA-9642-F27D017F0AA8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{83CB8A40-3DF3-4EAA-9642-F27D017F0AA8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{83CB8A40-3DF3-4EAA-9642-F27D017F0AA8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

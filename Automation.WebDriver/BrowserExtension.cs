@@ -21,7 +21,7 @@ namespace Automation.WebDriver
             return driver.FindElement(By.XPath(xpath));
         }
 
-        public static void WaitForElement(this IWebDriver driver, By locator, int ?timeoutInSeconds = null)
+        public static void WaitForElement(this IWebDriver driver, By locator, int? timeoutInSeconds = null)
         {
             WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(timeoutInSeconds ?? 0));
             wait.Until(d => d.FindElement(locator).Displayed);

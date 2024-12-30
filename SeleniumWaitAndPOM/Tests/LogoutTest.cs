@@ -1,4 +1,5 @@
 ﻿using Automation.WebDriver;
+using OpenQA.Selenium;
 using SeleniumWaitAndPOM.Pages;
 
 namespace SeleniumWaitAndPOM.Tests
@@ -16,6 +17,7 @@ namespace SeleniumWaitAndPOM.Tests
             loginPage = new LoginPage(driver);
             dashboardPage = new DashboardPage(driver);
         }
+
 
         [TestMethod("TC03: Test the logout function")]
         public void  Verify_Logout_Test()
