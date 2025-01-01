@@ -1,5 +1,4 @@
-﻿using Automation.WebDriver;
-using SeleniumWaitAndPOM.Pages;
+﻿using SeleniumWaitAndPOM.Pages;
 
 namespace SeleniumWaitAndPOM.Tests
 {
@@ -27,11 +26,11 @@ namespace SeleniumWaitAndPOM.Tests
             dashboardPage.clickMainMenuItemLeave();
 
             // Step 2: Click on the nav tab "Configure"
-            driver.WaitForElement(dashboardPage.navTabConfigureLocator, 20);
+            dashboardPage.WaitForNavTabConfigure();
 
             // Step 3: Hover on the nav tab "Configure"
             //dashboardPage.hoverNavTabConfigure();
-            driver.HoverOverElement(dashboardPage.navTabConfigure);
+            dashboardPage.HoverOverNavTabConfigure();
 
             // Step 4: Click on the nav tab "Configure"
             dashboardPage.clickNavTabConfigure();
@@ -40,7 +39,7 @@ namespace SeleniumWaitAndPOM.Tests
             dashboardPage.clickDropdownItemLeavePeriod();
 
             // Step 6: Go back to View Leave List screen
-            driver.GoBack();
+            dashboardPage.GoBackToLeavePage();
 
             // Step 7: Click on the nav tab "Configure"
             dashboardPage.clickNavTabConfigure();
@@ -49,7 +48,7 @@ namespace SeleniumWaitAndPOM.Tests
             dashboardPage.clickDropdownItemLeaveTypes();
 
             // Step 9: Go back to View Leave List screen
-            driver.GoBack();
+            dashboardPage.GoBackToLeavePage();
 
             // Step 10: Click on the nav tab "Configure"
             dashboardPage.clickNavTabConfigure();
@@ -58,7 +57,7 @@ namespace SeleniumWaitAndPOM.Tests
             dashboardPage.clickDropdownItemWorkWeek();
 
             // Step 12: Go back to View Leave List screen
-            driver.GoBack();
+            dashboardPage.GoBackToLeavePage();
 
             // Step 13: Click on the nav tab "Configure"
             dashboardPage.clickNavTabConfigure();
@@ -67,7 +66,7 @@ namespace SeleniumWaitAndPOM.Tests
             dashboardPage.clickDropdownItemHolidays();
 
             // Step 15: Go back to View Leave List screen
-            driver.GoBack();
+            dashboardPage.GoBackToLeavePage();
         }
     }
 }

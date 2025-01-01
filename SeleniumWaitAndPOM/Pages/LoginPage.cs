@@ -7,16 +7,13 @@ namespace SeleniumWaitAndPOM.Pages
     {
         public LoginPage(IWebDriver _driver) : base(_driver)
         {
+            //
         }
 
         // web elements
         private IWebElement inputUsername => driver.FindElementByXPath("//input[@name='username']");
-
         private IWebElement inputPassword => driver.FindElementByXPath("//input[@name='password']");
-
         private IWebElement buttonLogin => driver.FindElementByXPath("//button[contains(., 'Login')]");
-
-        public By buttonLoginLocator => By.XPath("//button[contains(., 'Login')]");
 
         // interact methods
         public void EnterUsername(string username)
@@ -38,6 +35,11 @@ namespace SeleniumWaitAndPOM.Pages
             EnterUsername(username);
             EnterPassword(password);
             ClickButtonLogin();
+        }
+
+        public void WaitForButtonLogin()
+        {
+            driver.WaitForElement(buttonLogin);
         }
     }
 }

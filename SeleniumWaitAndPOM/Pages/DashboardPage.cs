@@ -1,7 +1,6 @@
 ﻿
 using Automation.WebDriver;
 using OpenQA.Selenium;
-//using OpenQA.Selenium.Interactions;
 
 namespace SeleniumWaitAndPOM.Pages
 {
@@ -13,21 +12,10 @@ namespace SeleniumWaitAndPOM.Pages
 
         // web elements
         private IWebElement chartTimeAtWork => driver.FindElementByXPath("//div[@class='emp-attendance-chart']");
-
         private IWebElement userAreaDropdown => driver.FindElementByXPath("//div[@class='oxd-topbar-header-userarea']");
-
-        public By userAreaDropdownLocator => By.XPath("//div[@class='oxd-topbar-header-userarea']");
-
         private IWebElement logoutButton => driver.FindElementByXPath("//a[@href='/web/index.php/auth/logout']");
-
         private IWebElement mainMenuItemLeave => driver.FindElementByXPath("//a[@href='/web/index.php/leave/viewLeaveModule']");
-
-        public IWebElement navTabConfigure => driver.FindElementByXPath("//*/span[text()='Configure ']");
-
-        public By navTabConfigureLocator => By.XPath("//*/span[text()='Configure ']");
-
-        public By empAttendanceChartLocator => By.XPath("//div[@class='emp-attendance-chart']");
-
+        private IWebElement navTabConfigure => driver.FindElementByXPath("//*/span[text()='Configure ']");
         private IWebElement dropdownItemLeavePeriod => driver.FindElementByXPath("//a[text()='Leave Period']");
         private IWebElement dropdownItemLeaveTypes => driver.FindElementByXPath("//a[text()='Leave Types']");
         private IWebElement dropdownItemWorkWeek => driver.FindElementByXPath("//a[text()='Work Week']");
@@ -42,6 +30,31 @@ namespace SeleniumWaitAndPOM.Pages
         public void clickMainMenuItemLeave()
         {
             mainMenuItemLeave.Click();
+        }
+
+        public void WaitForNavTabConfigure()
+        {
+            driver.WaitForElement(navTabConfigure);
+        }
+
+        public void HoverOverNavTabConfigure()
+        {
+            driver.HoverOverElement(navTabConfigure);
+        }
+
+        public void GoBackToLeavePage()
+        {
+            mainMenuItemLeave.Click();
+        }
+
+        public void WaitForChartTimeAtWork()
+        {
+            driver.WaitForElement(chartTimeAtWork);
+        }
+
+        public void WaitForUserAreaDropdown()
+        {
+            driver.WaitForElement(userAreaDropdown);
         }
 
         public void clickNavTabConfigure()
@@ -69,7 +82,7 @@ namespace SeleniumWaitAndPOM.Pages
             dropdownItemHolidays.Click();
         }
 
-        public void ClickLogoutButton()
+        public void ClickButtonLogout()
         {
             userAreaDropdown.Click();
             logoutButton.Click();

@@ -1,6 +1,4 @@
-﻿using Automation.WebDriver;
-using OpenQA.Selenium;
-using SeleniumWaitAndPOM.Pages;
+﻿using SeleniumWaitAndPOM.Pages;
 
 namespace SeleniumWaitAndPOM.Tests
 {
@@ -23,12 +21,14 @@ namespace SeleniumWaitAndPOM.Tests
         public void  Verify_Logout_Test()
         {
             // Step of pre-condition
-            driver.WaitForElement(loginPage.buttonLoginLocator, 20);
+            //driver.WaitForElement(loginPage.buttonLoginLocator, 20);
+            loginPage.WaitForButtonLogin();
             loginPage.Login(username, password);
 
             // Step 1: Click the button Logout
-            driver.WaitForElement(dashboardPage.userAreaDropdownLocator, 20);
-            dashboardPage.ClickLogoutButton();
+            //driver.WaitForElement(dashboardPage.userAreaDropdownLocator, 20);
+            dashboardPage.WaitForUserAreaDropdown();
+            dashboardPage.ClickButtonLogout();
 
             // Step 2: Verify if the current Url is containing auth/login
             string currentUrl = driver.Url;

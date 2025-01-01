@@ -21,10 +21,10 @@ namespace Automation.WebDriver
             return driver.FindElement(By.XPath(xpath));
         }
 
-        public static void WaitForElement(this IWebDriver driver, By locator, int? timeoutInSeconds = null)
+        public static bool WaitForElement(this IWebDriver driver, IWebElement element)
         {
-            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(timeoutInSeconds ?? 0));
-            wait.Until(d => d.FindElement(locator).Displayed);
+            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(30));
+            return wait.Until(d => element.Displayed);
         }
 
         public static void HoverOverElement(this IWebDriver driver, IWebElement element)
