@@ -9,7 +9,7 @@ namespace Automation.ApiTest.Tests
     [TestClass]
     public class UsersTest : BaseTest
     {
-        [TestMethod("TC-001: Verify get list of user by page successfully")]
+        [TestMethod("TC-API-01: Verify get list of user by page successfully")]
         public void Verify_Get_List_User_By_Page()
         {
             var randomPage = new Random().Next(1, 2+1);
@@ -23,7 +23,7 @@ namespace Automation.ApiTest.Tests
             responseData.data.Should().HaveCountGreaterThan(0);
         }
 
-        [TestMethod("TC-002: Verify add new user successfully")]
+        [TestMethod("TC-API-02: Verify add new user successfully")]
         public void Verify_Create_User()
         {
             var requestBody = new AddUserRequestModel();

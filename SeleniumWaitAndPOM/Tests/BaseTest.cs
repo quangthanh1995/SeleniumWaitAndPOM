@@ -17,7 +17,6 @@ namespace SeleniumWaitAndPOM.Tests
 
         // retrieve data from Configuration Helper
         protected string loginUrl = ConfigurationHelper.GetValue<string>("loginUrl");
-        protected string viewLeaveListUrl = ConfigurationHelper.GetValue<string>("viewLeaveListUrl");
         protected string username = ConfigurationHelper.GetValue<string>("username");
         protected string password = ConfigurationHelper.GetValue<string>("password");
         protected string wrongPassword = ConfigurationHelper.GetValue<string>("wrongPassword");

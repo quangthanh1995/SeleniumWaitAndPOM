@@ -8,6 +8,7 @@ namespace SeleniumWaitAndPOM.Pages
     {
         public DashboardPage(IWebDriver _driver) : base(_driver)
         {
+            //
         }
 
         // web elements
