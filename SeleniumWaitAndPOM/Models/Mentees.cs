@@ -7,6 +7,6 @@
         public string Fullname { get; set; }
         public string Email { get; set; }
         public string DateOfBirth { get; set; }
-        public string AvgScore { get; set; }
+        public double AvgScore { get; set; }
     }
 }

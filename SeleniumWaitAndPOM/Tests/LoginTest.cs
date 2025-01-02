@@ -27,7 +27,6 @@ namespace SeleniumWaitAndPOM.Tests
             Assert.IsTrue(currentUrl.Contains("dashboard/index"), $"Expected Url to contains 'dashboard/index', but found: {currentUrl}");
 
             // Step 3: Verify if the emp attendance chart is displayed
-            //driver.WaitForElement(dashboardPage.empAttendanceChartLocator, 20);
             dashboardPage.WaitForChartTimeAtWork();
 
             // log login info to the report

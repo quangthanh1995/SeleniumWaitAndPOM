@@ -13,5 +13,11 @@ namespace SeleniumWaitAndPOM.Services
             var result = SqlHelper.ExecuteQuery<Courses>(connectionString, query);
             return result.FirstOrDefault();
         }
+        public Mentees GetMenteeWithHighestAvgScore()
+        {
+            string query = Queries.queryForSelectMenteeWithHighestScore;
+            var result = SqlHelper.ExecuteQuery<Mentees>(connectionString, query);
+            return result.FirstOrDefault();
+        }
     }
 }
