@@ -1,4 +1,5 @@
-﻿using OpenQA.Selenium;
+﻿using Automation.Core.Helpers;
+using OpenQA.Selenium;
 using OpenQA.Selenium.Interactions;
 using OpenQA.Selenium.Support.UI;
 
@@ -23,7 +24,8 @@ namespace Automation.WebDriver
 
         public static bool WaitForElement(this IWebDriver driver, IWebElement element)
         {
-            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(30));
+            var explicitTimeout = ConfigurationHelper.GetValue<int>("explicitTimeout");
+            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(explicitTimeout));
             return wait.Until(d => element.Displayed);
         }
 

@@ -17,6 +17,7 @@ namespace SeleniumWaitAndPOM.Tests
         }
 
         [TestMethod("TC04: Test the usability of the Leave>Configure menu")]
+        [TestCategory("smoketest")]
         public void Verify_Leave_Configure_Test()
         {
             // Step of pre-condition

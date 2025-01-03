@@ -37,6 +37,11 @@ namespace SeleniumWaitAndPOM.Pages
             ClickButtonLogin();
         }
 
+        public void WaitForInputUsername()
+        {
+            driver.WaitForElement(inputUsername);
+        }
+
         public void WaitForButtonLogin()
         {
             driver.WaitForElement(buttonLogin);

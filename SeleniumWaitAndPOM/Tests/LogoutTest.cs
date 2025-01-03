@@ -21,12 +21,10 @@ namespace SeleniumWaitAndPOM.Tests
         public void  Verify_Logout_Test()
         {
             // Step of pre-condition
-            //driver.WaitForElement(loginPage.buttonLoginLocator, 20);
             loginPage.WaitForButtonLogin();
             loginPage.Login(username, password);
 
             // Step 1: Click the button Logout
-            //driver.WaitForElement(dashboardPage.userAreaDropdownLocator, 20);
             dashboardPage.WaitForUserAreaDropdown();
             dashboardPage.ClickButtonLogout();
 
