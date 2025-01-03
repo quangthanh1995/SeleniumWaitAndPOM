@@ -1,34 +1,45 @@
-# ASP.NET Core (.NET Framework)
-# Build and test ASP.NET Core projects targeting the full .NET Framework.
-# Add steps that publish symbols, save build artifacts, and more:
-# https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
-
 trigger:
-- main
+  branches:
+    include:
+      - main 
 
 pool:
-  vmImage: 'windows-latest'
-
+  name: 'ThanhPool'  # Use your defined agent pool
+  demands: agent.name -equals DESKTOP-HND37C3
 variables:
-  solution: '**/*.sln'
-  buildPlatform: 'Any CPU'
-  buildConfiguration: 'Release'
-
+  buildConfiguration: 'Debug'  # Set build configuration
+  solution: 'SeleniumWaitAndPOM.sln'  # Solution file location
+ 
 steps:
-- task: NuGetToolInstaller@1
-
-- task: NuGetCommand@2
+# Use the latest .NET SDK
+- task: UseDotNet@2
   inputs:
-    restoreSolution: '$(solution)'
-
-- task: VSBuild@1
+    packageType: 'sdk'
+    version: '8.x'  # Adjust for your .NET SDK version
+    installationPath: $(Agent.ToolsDirectory)/dotnet
+ 
+# Restore dependencies
+- script: dotnet restore $(solution)
+  displayName: 'Restore Dependencies'
+ 
+# Build the solution
+- script: dotnet build $(solution) --configuration $(buildConfiguration) --no-restore
+  displayName: 'Build Solution'
+ 
+# Run Smoke Tests
+- script: dotnet test $(solution) --configuration $(buildConfiguration) --no-build --logger "trx;LogFileName=TestResults.trx" --filter "TestCategory=smoketest"
+  displayName: 'Run Smoke Tests'
+  
+# Publish Test Results
+- task: PublishTestResults@2
   inputs:
-    solution: '$(solution)'
-    msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:DesktopBuildPackageLocation="$(build.artifactStagingDirectory)\WebApp.zip" /p:DeployIisAppPath="Default Web Site"'
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
+    testResultsFiles: '$(Build.SourcesDirectory)/TestResults.trx'
+    testRunTitle: 'MSTest Results'
+    mergeTestResults: true
 
-- task: VSTest@2
+# Publish Build Artifacts
+- task: PublishBuildArtifacts@1
   inputs:
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
+    pathToPublish: '$(Build.SourcesDirectory)/MyLeaveTest/bin/Debug/net8.0/Reports'
+    artifactName: 'TestReport'
+    publishLocation: 'Container'
