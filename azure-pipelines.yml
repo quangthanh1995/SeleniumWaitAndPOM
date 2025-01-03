@@ -40,6 +40,6 @@ steps:
 # Publish Build Artifacts
 - task: PublishBuildArtifacts@1
   inputs:
-    pathToPublish: '$(Build.SourcesDirectory)/MyLeaveTest/bin/Debug/net8.0/Reports'
+    pathToPublish: '$(Build.SourcesDirectory)/SeleniumWaitAndPOM/bin/Debug/net8.0/Reports'
     artifactName: 'TestReport'
     publishLocation: 'Container'
