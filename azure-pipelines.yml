@@ -1,0 +1,45 @@
+trigger:
+  branches:
+    include:
+      - main 
+
+pool:
+  name: 'ThanhPool'  # Use your defined agent pool
+  demands: agent.name -equals DESKTOP-HND37C3
+variables:
+  buildConfiguration: 'Debug'  # Set build configuration
+  solution: 'SeleniumWaitAndPOM.sln'  # Solution file location
+ 
+steps:
+# Use the latest .NET SDK
+- task: UseDotNet@2
+  inputs:
+    packageType: 'sdk'
+    version: '8.x'  # Adjust for your .NET SDK version
+    installationPath: $(Agent.ToolsDirectory)/dotnet
+ 
+# Restore dependencies
+- script: dotnet restore $(solution)
+  displayName: 'Restore Dependencies'
+ 
+# Build the solution
+- script: dotnet build $(solution) --configuration $(buildConfiguration) --no-restore
+  displayName: 'Build Solution'
+ 
+# Run Smoke Tests
+- script: dotnet test $(solution) --configuration $(buildConfiguration) --no-build --logger "trx;LogFileName=TestResults.trx" --filter "TestCategory=smoketest"
+  displayName: 'Run Smoke Tests'
+  
+# Publish Test Results
+- task: PublishTestResults@2
+  inputs:
+    testResultsFiles: '$(Build.SourcesDirectory)/TestResults.trx'
+    testRunTitle: 'MSTest Results'
+    mergeTestResults: true
+
+# Publish Build Artifacts
+- task: PublishBuildArtifacts@1
+  inputs:
+    pathToPublish: '$(Build.SourcesDirectory)/MyLeaveTest/bin/Debug/net8.0/Reports'
+    artifactName: 'TestReport'
+    publishLocation: 'Container'
