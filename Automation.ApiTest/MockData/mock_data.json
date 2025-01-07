@@ -1,5 +1,5 @@
 {
-    "createUser": {
+    "addUser": {
         "name": "thanh",
         "job": "dev"
     },

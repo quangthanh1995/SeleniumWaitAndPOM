@@ -10,12 +10,9 @@ namespace Automation.ApiTest.Tests
     [TestClass]
     public class UsersTest : BaseTest
     {
-        string mockDataFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\MockData\mock_data.json");
-
         [TestMethod("TC-API-01: Verify get list of user by page successfully")]
         public void Verify_Get_List_User_By_Page()
         {
-            var randomPage = new Random().Next(1, 2 + 1);
             var request = new RestRequest("/api/users?page=" + randomPage, Method.Get);
 
             RestResponse response = client.Execute<RestResponse>(request);
@@ -26,11 +23,23 @@ namespace Automation.ApiTest.Tests
             responseData.data.Should().HaveCountGreaterThan(0);
         }
 
-        [TestMethod("TC-API-02: Verify add new user successfully")]
-        public void Verify_Create_User()
+        [TestMethod("TC-API-02: Verify get a specific user by id")]
+        public void Verify_Get_Specific_User_By_Id()
         {
 
-            var requestBody = MockDataHelper.LoadMockData(mockDataFilePath, "createUser");
+            var request = ApiHelper.GetUserWithIdRequest("/api/users/" + randomUserId, Method.Get);
+
+            RestResponse response = client.Execute<RestResponse>(request);
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
+
+            var responseData = JsonConvert.DeserializeObject<GetUserModel>(response.Content);
+            responseData.data.id.Should().Be(randomUserId);
+        }
+
+        [TestMethod("TC-API-03: Verify add new user successfully")]
+        public void Verify_Add_User()
+        {
+            var requestBody = MockDataHelper.LoadMockData(mockDataFilePath, "addUser");
 
             var addUserRequest = new AddUserRequestModel
             {
@@ -38,7 +47,7 @@ namespace Automation.ApiTest.Tests
                 job = requestBody.job,
             };
 
-            var request = ApiHelper.CreateRequest("/api/users", Method.Post);
+            var request = ApiHelper.AddUserRequest("/api/users", "addUserRequest");
             request.AddJsonBody(addUserRequest);
 
             RestResponse response = client.Execute<RestResponse>(request);
@@ -49,7 +58,7 @@ namespace Automation.ApiTest.Tests
             responseData.job.Should().Be(addUserRequest.job);
         }
 
-        [TestMethod("TC-API-03: Verify update user successfully")]
+        [TestMethod("TC-API-04: Verify update user successfully")]
         public void Verify_Update_User()
         {
             var requestBody = MockDataHelper.LoadMockData(mockDataFilePath, "updateUser");
@@ -60,7 +69,7 @@ namespace Automation.ApiTest.Tests
                 job = requestBody.job,
             };
 
-            var request = ApiHelper.UpdateRequest("/api/users/2", updateUserRequest);
+            var request = ApiHelper.UpdateUserRequest("/api/users/2", updateUserRequest);
             RestResponse response = client.Execute<RestResponse>(request);
             response.StatusCode.Should().Be(HttpStatusCode.OK);
 
@@ -69,10 +78,10 @@ namespace Automation.ApiTest.Tests
             responseData.job.Should().Be(updateUserRequest.job);
         }
 
-        [TestMethod("TC-API-04: Verify delete user successfully")]
+        [TestMethod("TC-API-05: Verify delete user successfully")]
         public void Verify_Delete_User()
         {
-            var request = ApiHelper.DeleteRequest("/api/user/2");
+            var request = ApiHelper.DeleteUserRequest("/api/user/2");
             RestResponse response = client.Execute<RestResponse>(request);
             response.StatusCode.Should().Be(HttpStatusCode.NoContent);
         }

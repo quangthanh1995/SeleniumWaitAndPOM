@@ -29,8 +29,11 @@ namespace SeleniumWaitAndPOM.Tests
             dashboardPage.ClickButtonLogout();
 
             // Step 2: Verify if the current Url is containing auth/login
-            string currentUrl = driver.Url;
+            currentUrl = driver.Url;
             Assert.IsTrue(currentUrl.Contains("auth/login"), $"Expected Url to contains 'auth/login', but found: {currentUrl}");
+
+            // log logout info to the report
+            reportHelper.LogMessage("Info", "Verify the function logout");
         }
     }
 }

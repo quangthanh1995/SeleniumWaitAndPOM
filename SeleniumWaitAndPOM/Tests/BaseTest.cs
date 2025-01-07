@@ -8,6 +8,7 @@ namespace SeleniumWaitAndPOM.Tests
     public class BaseTest
     {
         protected IWebDriver driver;
+        protected string currentUrl;
 
         // report helper
         protected ReportHelper reportHelper;

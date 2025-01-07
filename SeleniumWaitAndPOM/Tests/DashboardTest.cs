@@ -30,7 +30,6 @@ namespace SeleniumWaitAndPOM.Tests
             dashboardPage.WaitForNavTabConfigure();
 
             // Step 3: Hover on the nav tab "Configure"
-            //dashboardPage.hoverNavTabConfigure();
             dashboardPage.HoverOverNavTabConfigure();
 
             // Step 4: Click on the nav tab "Configure"
@@ -39,35 +38,50 @@ namespace SeleniumWaitAndPOM.Tests
             // Step 5: Click on the dropdown item "Leave Period"
             dashboardPage.clickDropdownItemLeavePeriod();
 
-            // Step 6: Go back to View Leave List screen
+            // Step 6: Verify the current Url should contain "leave/defineLeavePeriod"
+            currentUrl = driver.Url;
+            Assert.IsTrue(currentUrl.Contains("leave/defineLeavePeriod"), $"Expected Url to contain 'leave/defineLeavePeriod', but found: {currentUrl}");
+
+            // Step 7: Go back to View Leave List screen
             dashboardPage.GoBackToLeavePage();
 
-            // Step 7: Click on the nav tab "Configure"
+            // Step 8: Click on the nav tab "Configure"
             dashboardPage.clickNavTabConfigure();
 
-            // Step 8:  Click on dropdown menu item "Leave Types"
+            // Step 9:  Click on dropdown menu item "Leave Types"
             dashboardPage.clickDropdownItemLeaveTypes();
 
-            // Step 9: Go back to View Leave List screen
+            // Step 10: Verify the current Url should contain "leave/defineLeavePeriod"
+            currentUrl = driver.Url;
+            Assert.IsTrue(currentUrl.Contains("leave/leaveTypeList"), $"Expected Url to contain 'leave/leaveTypeList', but found: {currentUrl}");
+
+            // Step 11: Go back to View Leave List screen
             dashboardPage.GoBackToLeavePage();
 
-            // Step 10: Click on the nav tab "Configure"
+            // Step 12: Click on the nav tab "Configure"
             dashboardPage.clickNavTabConfigure();
 
-            // Step 11:  Click on dropdown menu item "Work Week"
+            // Step 13:  Click on dropdown menu item "Work Week"
             dashboardPage.clickDropdownItemWorkWeek();
 
-            // Step 12: Go back to View Leave List screen
-            dashboardPage.GoBackToLeavePage();
-
-            // Step 13: Click on the nav tab "Configure"
-            dashboardPage.clickNavTabConfigure();
-
-            // Step 14:  Click on dropdown menu item "Holidays"
-            dashboardPage.clickDropdownItemHolidays();
+            // Step 14: Verify the current Url should contain "leave/defineLeavePeriod"
+            currentUrl = driver.Url;
+            Assert.IsTrue(currentUrl.Contains("leave/defineWorkWeek"), $"Expected Url to contain 'leave/defineWorkWeek', but found: {currentUrl}");
 
             // Step 15: Go back to View Leave List screen
             dashboardPage.GoBackToLeavePage();
+
+            // Step 16: Click on the nav tab "Configure"
+            dashboardPage.clickNavTabConfigure();
+
+            // Step 17:  Click on dropdown menu item "Holidays"
+            dashboardPage.clickDropdownItemHolidays();
+
+            // Step 18: Verify the current Url should contain "leave/defineLeavePeriod"
+            currentUrl = driver.Url;
+            Assert.IsTrue(currentUrl.Contains("leave/viewHolidayList"), $"Expected Url to contain 'leave/viewHolidayList', but found: {currentUrl}");
+
+            reportHelper.LogMessage("Info", "Verify usability of Dashboard>Leave>Configure");
         }
     }
 }

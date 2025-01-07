@@ -7,7 +7,6 @@ namespace SeleniumWaitAndPOM.Tests
     {
         private LoginPage loginPage;
         private DashboardPage dashboardPage;
-        private string currentUrl;
 
         [TestInitialize]
         public void SetupLoginTest()
@@ -51,6 +50,10 @@ namespace SeleniumWaitAndPOM.Tests
             // Step 2: Verify the current Url
             currentUrl = driver.Url;
             Assert.IsFalse(currentUrl.Contains("dashboard/index"), $"Expected Url to contains 'dashboard/index', but found: {currentUrl}");
+
+            // log login with wrong password info to the report
+            reportHelper.LogMessage("Info", "Login with username: " + username);
+            reportHelper.LogMessage("Info", "Login with password: " + wrongPassword);
         }
     }
 }
