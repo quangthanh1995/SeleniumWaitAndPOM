@@ -54,15 +54,15 @@ steps:
   displayName: 'Publish Test Results'
 
 # 6. Find and Publish Latest HTML Report (Dynamic Report File Name)
-- script: |
-    reportFile=$(ls $(reportsDir)/Spark_Report_*.html | sort | tail -n 1)
-    echo "##vso[task.setvariable variable=reportFilePath]$reportFile"
+- powershell: |
+    $reportFile = Get-ChildItem -Path "$(reportsDir)\Spark_Report_*.html" | Sort-Object LastWriteTime -Descending | Select-Object -First 1
+    Write-Host "##vso[task.setvariable variable=reportFilePath]$($reportFile.FullName)"
   displayName: 'Find Latest Report File'
 
 # 7. Publish HTML Report (Test Report)
-- task: PublishHtmlReport@1
+- task: PublishHtmlReport@1  # This task is from the "Html Viewer" extension
   inputs:
-    reportDir: '$(reportFilePath)'
+    reportDir: '$(reportFilePath)'  # Use the dynamically found report file
   displayName: 'Publish HTML Report'
 
 # 8. Publish Build Artifacts (for later retrieval)
