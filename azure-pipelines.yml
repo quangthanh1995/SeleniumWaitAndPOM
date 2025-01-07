@@ -1,45 +1,74 @@
 trigger:
   branches:
     include:
-      - main 
+      - main
 
 pool:
-  name: 'ThanhPool'  # Use your defined agent pool
+  name: 'ThanhPool'
   demands: agent.name -equals DESKTOP-HND37C3
+
 variables:
   buildConfiguration: 'Debug'  # Set build configuration
   solution: 'SeleniumWaitAndPOM.sln'  # Solution file location
- 
+  testResultsDir: '$(Build.SourcesDirectory)/TestResults'  # Directory for test results
+  reportsDir: '$(Build.SourcesDirectory)/SeleniumWaitAndPOM/bin/Debug/net8.0/Reports'  # Reports directory
+  dotnetVersion: '8.x'  # .NET SDK version to use
+
 steps:
-# Use the latest .NET SDK
+# 1. Use the latest .NET SDK version
 - task: UseDotNet@2
   inputs:
     packageType: 'sdk'
-    version: '8.x'  # Adjust for your .NET SDK version
+    version: $(dotnetVersion)
     installationPath: $(Agent.ToolsDirectory)/dotnet
- 
-# Restore dependencies
-- script: dotnet restore $(solution)
+
+# 2. Restore dependencies
+- task: DotNetCoreCLI@2
+  inputs:
+    command: restore
+    projects: $(solution)
   displayName: 'Restore Dependencies'
- 
-# Build the solution
-- script: dotnet build $(solution) --configuration $(buildConfiguration) --no-restore
+
+# 3. Build the solution
+- task: DotNetCoreCLI@2
+  inputs:
+    command: build
+    projects: $(solution)
+    arguments: '--configuration $(buildConfiguration) --no-restore'
   displayName: 'Build Solution'
- 
-# Run Smoke Tests
-- script: dotnet test $(solution) --configuration $(buildConfiguration) --no-build --logger "trx;LogFileName=TestResults.trx" --filter "TestCategory=smoketest"
+
+# 4. Run Smoke Tests
+- task: DotNetCoreCLI@2
+  inputs:
+    command: test
+    projects: $(solution)
+    arguments: '--configuration $(buildConfiguration) --no-build --logger "trx;LogFileName=TestResults.trx" --filter "TestCategory=smoketest"'
   displayName: 'Run Smoke Tests'
-  
-# Publish Test Results
+
+# 5. Publish Test Results (MSTest)
 - task: PublishTestResults@2
   inputs:
-    testResultsFiles: '$(Build.SourcesDirectory)/TestResults.trx'
+    testResultsFiles: '$(testResultsDir)/TestResults.trx'
     testRunTitle: 'MSTest Results'
     mergeTestResults: true
+  displayName: 'Publish Test Results'
 
-# Publish Build Artifacts
+# 6. Find and Publish Latest HTML Report (Dynamic Report File Name)
+- script: |
+    reportFile=$(ls $(reportsDir)/Spark_Report_*.html | sort | tail -n 1)
+    echo "##vso[task.setvariable variable=reportFilePath]$reportFile"
+  displayName: 'Find Latest Report File'
+
+# 7. Publish HTML Report (Test Report)
+- task: PublishHtmlReport@1
+  inputs:
+    reportDir: '$(reportFilePath)'
+  displayName: 'Publish HTML Report'
+
+# 8. Publish Build Artifacts (for later retrieval)
 - task: PublishBuildArtifacts@1
   inputs:
-    pathToPublish: '$(Build.SourcesDirectory)/SeleniumWaitAndPOM/bin/Debug/net8.0/Reports'
+    pathToPublish: $(reportsDir)
     artifactName: 'TestReport'
     publishLocation: 'Container'
+  displayName: 'Publish Test Reports Artifacts'
